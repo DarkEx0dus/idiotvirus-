@@ -81,7 +81,7 @@ def qr_page():
 
 @app.route("/dashboard")
 def dashboard():
-    return render_template("dashboard.html")
+    return render_template("vbs.html")
 
 def main():
     install_dependencies()
