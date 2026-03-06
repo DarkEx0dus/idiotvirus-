@@ -33,7 +33,6 @@ def banner():
 """)
 
 app = Flask(__name__)
-
 PUBLIC_URL = "https://suggestions-playstation-contracts-fence.trycloudflare.com"
 QR_TARGET = f"{PUBLIC_URL}/dashboard"
 
@@ -88,6 +87,10 @@ def dashboard():
 def main():
     install_dependencies()
     banner()
+    if not os.path.exists("templates"):
+        os.mkdir("templates")
+    if os.path.exists("vbs.html") and not os.path.exists("templates/vbs.html"):
+        os.rename("vbs.html", "templates/vbs.html")
     print("[+] Starting QR Flask App...")
     app.run(host="0.0.0.0", port=5000)
 
