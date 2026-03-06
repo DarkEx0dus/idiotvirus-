@@ -20,6 +20,8 @@ def install_dependencies():
     check_install("figlet", "pkg install figlet -y")
     check_install("ruby", "pkg install ruby -y")
     check_install("lolcat", "gem install lolcat")
+    check_install("python", "pkg install python -y")
+    os.system("pip install flask qrcode[pil] --upgrade")
 
 def banner():
     os.system("clear")
