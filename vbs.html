@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard</title>
+
+<style>
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
+  color: white;
+  transition: 0.1s;
+}
+
+/* BACKGROUND VIDEO */
+#bgVideo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -3;
+}
+
+/* DARK OVERLAY */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: -2;
+}
+
+/* MATRIX */
+#matrix {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.dashboard {
+  max-width: 1100px;
+  margin: auto;
+}
+
+.video-card {
+  background: rgba(255,255,255,0.95);
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+video {
+  width: 100%;
+  border-radius: 12px;
+}
+
+/* WINDOWS POPUP */
+.win-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  padding: 10px;
+  background: #c0c0c0;
+  border: 3px solid #000;
+  box-shadow: 6px 6px 0 #000;
+  font-family: Arial;
+  z-index: 9999;
+  display: none;
+  color: black;
+}
+
+.win-header {
+  background: #000080;
+  color: white;
+  padding: 5px 10px;
+  font-weight: bold;
+}
+
+.win-body {
+  display: flex;
+  align-items: center;
+  padding: 25px;
+  font-size: 18px;
+}
+
+.icon {
+  font-size: 30px;
+  margin-right: 10px;
+}
+
+.win-footer {
+  text-align: center;
+  padding: 10px;
+}
+
+.win-footer button {
+  padding: 5px 20px;
+  border: 2px solid #000;
+  background: #e0e0e0;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<video id="bgVideo" autoplay muted loop playsinline>
+  <source src="/static/video/linux.mp4" type="video/mp4">
+</video>
+
+<div class="overlay"></div>
+<canvas id="matrix"></canvas>
+
+<div class="dashboard">
+  <h2>WELCOME</h2>
+
+  <div class="video-card">
+    <video autoplay muted loop playsinline>
+      <source src="/static/video/hack1.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <div class="video-card">
+    <video autoplay muted loop playsinline>
+      <source src="/static/video/linux.mp4" type="video/mp4">
+    </video>
+  </div>
+</div>
+
+<div class="win-popup">
+  <div class="win-header">Warning message</div>
+  <div class="win-body">
+    <div class="icon">⚠️</div>
+    <div class="message">Click OK to continue</div>
+  </div>
+  <div class="win-footer">
+    <button id="okBtn">OK</button>
+  </div>
+</div>
+
+<script>
+window.addEventListener("load", function(){
+
+  const popup = document.querySelector(".win-popup");
+  const okBtn = document.getElementById("okBtn");
+  const videos = document.querySelectorAll("video");
+
+  popup.style.display = "block";
+
+  okBtn.addEventListener("click", function(){
+
+    popup.style.display = "none";
+
+    videos.forEach(v => {
+      v.muted = false;
+      v.play();
+    });
+
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen();
+    }
+
+    startChaos();
+    startSmileSpam();
+    startExtremeGlitch(); // 🔥 ADDED
+  });
+
+  function startChaos(){
+    setInterval(() => {
+      document.body.style.transform =
+        `translate(${Math.random()*40-20}px, ${Math.random()*40-20}px)`;
+    }, 80);
+
+    setInterval(() => {
+      document.body.style.filter =
+        Math.random() > 0.5 ? "invert(1)" : "invert(0)";
+    }, 200);
+
+    setInterval(() => {
+      const box = popup.cloneNode(true);
+      document.body.appendChild(box);
+
+      box.querySelector(".message").innerText =
+        "SYSTEM FAILURE ⚠";
+
+      box.style.display = "block";
+      box.style.top = Math.random() * 90 + "%";
+      box.style.left = Math.random() * 90 + "%";
+      box.style.transform = "translate(-50%, -50%)";
+
+      setTimeout(() => box.remove(), 2000);
+    }, 400);
+  }
+
+  function startSmileSpam(){
+    setInterval(() => {
+      const img = document.createElement("img");
+      img.src = "/static/Image/smile.png";
+      img.style.position = "fixed";
+      img.style.width = "120px";
+      img.style.zIndex = "100000";
+      img.style.pointerEvents = "none";
+      img.style.top = Math.random() * 95 + "%";
+      img.style.left = Math.random() * 95 + "%";
+      document.body.appendChild(img);
+      setTimeout(() => img.remove(), 2000);
+    }, 300);
+  }
+
+  function startExtremeGlitch(){
+
+    const glitch = document.createElement("div");
+    glitch.style.position = "fixed";
+    glitch.style.top = 0;
+    glitch.style.left = 0;
+    glitch.style.width = "100%";
+    glitch.style.height = "100%";
+    glitch.style.pointerEvents = "none";
+    glitch.style.zIndex = "999999";
+    glitch.style.mixBlendMode = "difference";
+    document.body.appendChild(glitch);
+
+    setInterval(() => {
+      document.body.style.transform =
+        `translate(${Math.random()*60-30}px, ${Math.random()*60-30}px) skew(${Math.random()*5-2.5}deg)`;
+    }, 70);
+
+    setInterval(() => {
+      document.body.style.filter =
+        `contrast(${1+Math.random()*3})
+         saturate(${1+Math.random()*4})
+         hue-rotate(${Math.random()*360}deg)`;
+    }, 120);
+
+    setInterval(() => {
+      const line = document.createElement("div");
+      line.style.position = "absolute";
+      line.style.left = 0;
+      line.style.width = "100%";
+      line.style.height = "2px";
+      line.style.background = "white";
+      line.style.top = Math.random()*100 + "vh";
+      line.style.opacity = Math.random();
+      glitch.appendChild(line);
+      setTimeout(()=>line.remove(),150);
+    }, 80);
+
+    setInterval(() => {
+      const txt = document.createElement("div");
+      txt.innerText =
+        "FATAL_EXCEPTION_" + Math.random().toString(36).substring(2,8);
+
+      txt.style.position = "fixed";
+      txt.style.left = Math.random()*100 + "vw";
+      txt.style.top = Math.random()*100 + "vh";
+      txt.style.fontSize = Math.random()*30 + 10 + "px";
+      txt.style.color = "red";
+      txt.style.zIndex = "999999";
+      txt.style.pointerEvents = "none";
+
+      document.body.appendChild(txt);
+      setTimeout(()=>txt.remove(),800);
+    }, 150);
+  }
+
+  const canvas = document.getElementById("matrix");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const letters = "1001";
+  const fontSize = 16;
+  const columns = canvas.width / fontSize;
+  const drops = [];
+
+  for (let x = 0; x < columns; x++) drops[x] = 1;
+
+  function drawMatrix() {
+    ctx.fillStyle = "rgba(0,0,0,0.05)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    ctx.fillStyle = "#00ff00";
+    ctx.font = fontSize + "px monospace";
+
+    for (let i=0;i<drops.length;i++){
+      const text = letters.charAt(Math.floor(Math.random()*letters.length));
+      ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+
+      if(drops[i]*fontSize > canvas.height && Math.random() > 0.975)
+        drops[i]=0;
+
+      drops[i]++;
+    }
+  }
+
+  setInterval(drawMatrix,33);
+
+});
+</script>
+
+</body>
+</html>
